@@ -21,9 +21,15 @@ For testing the requirements are:
 
 ## Installation
 
-Currently the only install method is source. To install via source run:
+`rack_iam` is easily installed through `pip`:
+
+`pip install rack_iam`
+
+If you need to do a source based install instead:
 
 `python setup.py install`
+
+Beware the elders of the nine, should they find your install and curse you with their magic.
 
 ## Testing
 
