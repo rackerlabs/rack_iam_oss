@@ -1,0 +1,72 @@
+{
+    "Outputs": {
+        "RoleArn": {
+            "Description": "ARN of the role",
+            "Value": {
+                "Fn::GetAtt": [
+                    "CrossAccountS3Role",
+                    "Arn"
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "AccountNumber": {
+            "Description": "The name of the account number for the cross account Role",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "CrossAccountS3Role": {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Join": [
+                                        ":",
+                                        [
+                                            "arn",
+                                            "aws",
+                                            "iam",
+                                            "",
+                                            {
+                                                "Ref": "AccountNumber"
+                                            },
+                                            "root"
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "s3:*"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": "*"
+                                }
+                            ],
+                            "Version": "2012-10-17"
+                        },
+                        "PolicyName": "CrossAccountS3Policy"
+                    }
+                ]
+            },
+            "Type": "AWS::IAM::Role"
+        }
+    }
+}
